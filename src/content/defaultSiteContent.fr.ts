@@ -42,6 +42,7 @@ export const siteContentFr: SiteContent = {
       { id: "tile-business", sortOrder: 20, path: "/business", title: "Entreprises en France", hint: "Auto-entrepreneur, sociétés, fiscalité" },
       { id: "tile-talent", sortOrder: 30, path: "/talent-passport", title: "Passeport talent — France", hint: "Passeport Talent" },
       { id: "tile-laws", sortOrder: 40, path: "/laws", title: "Lois françaises à connaître", hint: "Normes expliquées simplement" },
+      { id: "tile-consult", sortOrder: 45, path: "/consultation", title: "Prendre rendez-vous", hint: "Calendrier et paiement (démo)" },
       { id: "tile-assoc", sortOrder: 50, path: "/associations", title: "Associations russophones", hint: "Annuaire" },
     ],
   },

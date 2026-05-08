@@ -20,6 +20,7 @@ import { EmigrationPage } from "./pages/EmigrationPage";
 import { HomePage } from "./pages/HomePage";
 import { LawsPage } from "./pages/LawsPage";
 import { TalentPassportPage } from "./pages/TalentPassportPage";
+import { ConsultationPage } from "./pages/ConsultationPage";
 
 export default function App() {
   if (isAdminSiteBuild()) {
@@ -55,6 +56,7 @@ export default function App() {
         <Route path="/laws" element={<LawsPage />} />
         <Route path="/associations" element={<AssociationsPage />} />
         <Route path="/associations/:slug" element={<AssociationDetailPage />} />
+        <Route path="/consultation" element={<ConsultationPage />} />
         <Route path="/admin/*" element={<AdminNotAvailable />} />
       </Routes>
     </Layout>

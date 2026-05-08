@@ -24,6 +24,7 @@ export function Layout({ children }: { children?: ReactNode }) {
         { to: "/talent-passport", label: t.navTalent, end: false as const },
         { to: "/laws", label: t.navLaws, end: false as const },
         { to: "/associations", label: t.navAssociations, end: false as const },
+        { to: "/consultation", label: t.navConsultation, end: false as const },
       ] as const,
     [t],
   );

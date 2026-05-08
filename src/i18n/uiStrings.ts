@@ -11,6 +11,7 @@ export type UiStrings = {
   navTalent: string;
   navLaws: string;
   navAssociations: string;
+  navConsultation: string;
   brandTag: string;
   langShortRu: string;
   langShortFr: string;
@@ -42,6 +43,51 @@ export type UiStrings = {
   adminUnavailableTitle: string;
   adminUnavailableLead: string;
   adminUnavailableHome: string;
+  consultationBrowserTitle: string;
+  consultationPageTitle: string;
+  consultationLead: string;
+  consultationDemoBanner: string;
+  consultationBookTitle: string;
+  consultationBookIntro: string;
+  consultationPayDeadlineHint: string;
+  consultationMonthPrev: string;
+  consultationMonthNext: string;
+  consultationCalendarAria: string;
+  consultationLegendFree: string;
+  consultationLegendFull: string;
+  consultationLegendWeekend: string;
+  consultationLegendPast: string;
+  consultationPickTime: string;
+  consultationSlotTaken: string;
+  consultationFormTitle: string;
+  consultationFormName: string;
+  consultationFormPhone: string;
+  consultationFormEmail: string;
+  consultationFormTopic: string;
+  consultationSubmit: string;
+  consultationReset: string;
+  consultationErrorNeedSlot: string;
+  consultationErrorFill: string;
+  consultationErrorEmail: string;
+  consultationErrorSlotTaken: string;
+  consultationErrorGeneric: string;
+  consultationSuccessToast: string;
+  consultationPayTitle: string;
+  consultationPayIntro: string;
+  consultationPayDateLabel: string;
+  consultationPayPhoneLabel: string;
+  consultationPayFind: string;
+  consultationPayNotFound: string;
+  consultationPayStatusLabel: string;
+  consultationPayStatusUnpaid: string;
+  consultationPayPayBtn: string;
+  consultationPayClose: string;
+  consultationPaidToast: string;
+  consultationStripeDemoTitle: string;
+  consultationStripeDemoHint: string;
+  consultationStripeCardLabel: string;
+  consultationStripePayTest: string;
+  consultationToastClose: string;
 };
 
 const ru: UiStrings = {
@@ -55,6 +101,7 @@ const ru: UiStrings = {
   navTalent: "Паспорт талант Франция",
   navLaws: "Интересные ЗАКОНЫ Франции",
   navAssociations: "Русскоговорящие Ассоциации во Франции",
+  navConsultation: "Запись на консультацию",
   brandTag: "юрист во Франции",
   langShortRu: "RU",
   langShortFr: "FR",
@@ -88,6 +135,55 @@ const ru: UiStrings = {
   adminUnavailableLead:
     "На этом деплое включён только публичный режим. Управление контентом — на отдельном проекте Vercel с переменной VITE_SITE_MODE=admin и маршрутом /admin.",
   adminUnavailableHome: "На главную",
+  consultationBrowserTitle: "Запись на консультацию — Александра Лемель",
+  consultationPageTitle: "Консультация",
+  consultationLead:
+    "Выберите дату и время встречи (45 минут), заполните контакты и кратко опишите вопрос. Ниже — оплата уже забронированной консультации.",
+  consultationDemoBanner:
+    "Демонстрационный режим: данные хранятся только в этом браузере, оплата имитация. Для рабочей версии подключим Supabase и Stripe.",
+  consultationBookTitle: "Запись на консультацию",
+  consultationBookIntro: "Календарь: выходные и полностью занятые дни недоступны. Занятые интервалы отмечены в списке времени.",
+  consultationPayDeadlineHint:
+    "Оплату нужно внести не позднее чем за час до начала консультации. В демо-режиме напоминание только текстом на странице.",
+  consultationMonthPrev: "← Месяц",
+  consultationMonthNext: "Месяц →",
+  consultationCalendarAria: "Календарь свободных дней",
+  consultationLegendFree: "Можно выбрать",
+  consultationLegendFull: "Нет свободных слотов",
+  consultationLegendWeekend: "Выходной",
+  consultationLegendPast: "Прошедшие даты",
+  consultationPickTime: "Свободное время",
+  consultationSlotTaken: "занято",
+  consultationFormTitle: "Ваши данные",
+  consultationFormName: "Имя",
+  consultationFormPhone: "Телефон",
+  consultationFormEmail: "Электронная почта",
+  consultationFormTopic: "Кратко опишите вопрос",
+  consultationSubmit: "Записаться",
+  consultationReset: "Сбросить выбор",
+  consultationErrorNeedSlot: "Сначала выберите дату и свободное время.",
+  consultationErrorFill: "Заполните все поля формы.",
+  consultationErrorEmail: "Укажите корректный адрес почты.",
+  consultationErrorSlotTaken: "Это время только что заняли. Выберите другой слот.",
+  consultationErrorGeneric: "Не удалось сохранить запись. Попробуйте ещё раз.",
+  consultationSuccessToast: "Вы записаны. Номер записи: {{code}}. Сохраните его. Оплату можно внести в блоке ниже.",
+  consultationPayTitle: "Оплатить консультацию",
+  consultationPayIntro:
+    "Укажите дату визита и телефон, который вы вводили при записи. Откроется ваша неоплаченная запись — затем демо-оплата (без списания средств).",
+  consultationPayDateLabel: "Дата консультации",
+  consultationPayPhoneLabel: "Телефон при записи",
+  consultationPayFind: "Найти запись",
+  consultationPayNotFound: "Неоплаченных записей на эту дату и телефон не найдено.",
+  consultationPayStatusLabel: "Статус",
+  consultationPayStatusUnpaid: "Не оплачено",
+  consultationPayPayBtn: "Оплатить",
+  consultationPayClose: "Свернуть",
+  consultationPaidToast: "В демо-режиме оплата засчитана. В рабочей версии здесь будет Stripe.",
+  consultationStripeDemoTitle: "Оплата (демо)",
+  consultationStripeDemoHint: "Платёжная форма Stripe будет подключена на проде. Сейчас — имитация без запросов к серверу.",
+  consultationStripeCardLabel: "Карта (неактивно)",
+  consultationStripePayTest: "Оплатить тестом",
+  consultationToastClose: "Закрыть уведомление",
 };
 
 const fr: UiStrings = {
@@ -102,6 +198,7 @@ const fr: UiStrings = {
   navTalent: "Passeport talent — France",
   navLaws: "Lois françaises à connaître",
   navAssociations: "Associations russophones en France",
+  navConsultation: "Prendre rendez-vous",
   brandTag: "avocate en France",
   langShortRu: "RU",
   langShortFr: "FR",
@@ -135,6 +232,58 @@ const fr: UiStrings = {
   adminUnavailableLead:
     "Ce déploiement est en mode public uniquement. La gestion du contenu se fait sur un autre projet Vercel avec la variable VITE_SITE_MODE=admin et l’URL /admin.",
   adminUnavailableHome: "Accueil",
+  consultationBrowserTitle: "Rendez-vous — Alexandra Lemesle",
+  consultationPageTitle: "Consultation",
+  consultationLead:
+    "Choisissez la date et le créneau (45 minutes), puis vos coordonnées et un court descriptif. Ci-dessous : paiement d’un rendez-vous déjà réservé.",
+  consultationDemoBanner:
+    "Mode démo : les données restent dans ce navigateur, le paiement est simulé. Version finale : Supabase et Stripe.",
+  consultationBookTitle: "Prendre rendez-vous",
+  consultationBookIntro:
+    "Calendrier : week-ends et jours complets indisponibles. Les créneaux pris apparaissent dans la liste des horaires.",
+  consultationPayDeadlineHint:
+    "Le paiement devra être effectué au plus tard une heure avant la consultation. En démo, rappel uniquement par ce texte.",
+  consultationMonthPrev: "← Mois",
+  consultationMonthNext: "Mois →",
+  consultationCalendarAria: "Calendrier des jours disponibles",
+  consultationLegendFree: "Disponible",
+  consultationLegendFull: "Complet",
+  consultationLegendWeekend: "Week-end",
+  consultationLegendPast: "Dates passées",
+  consultationPickTime: "Horaires libres",
+  consultationSlotTaken: "pris",
+  consultationFormTitle: "Vos informations",
+  consultationFormName: "Nom",
+  consultationFormPhone: "Téléphone",
+  consultationFormEmail: "E-mail",
+  consultationFormTopic: "Décrivez brièvement votre demande",
+  consultationSubmit: "Confirmer le rendez-vous",
+  consultationReset: "Effacer le choix",
+  consultationErrorNeedSlot: "Choisissez d’abord une date et un horaire libre.",
+  consultationErrorFill: "Remplissez tous les champs.",
+  consultationErrorEmail: "Indiquez une adresse e-mail valide.",
+  consultationErrorSlotTaken: "Ce créneau vient d’être pris. Choisissez un autre horaire.",
+  consultationErrorGeneric: "Enregistrement impossible. Réessayez.",
+  consultationSuccessToast:
+    "Rendez-vous enregistré. Numéro de dossier : {{code}}. Conservez-le. Le paiement se fait dans le bloc ci-dessous.",
+  consultationPayTitle: "Payer la consultation",
+  consultationPayIntro:
+    "Indiquez la date du rendez-vous et le téléphone saisi à la réservation. Votre dossier non payé s’affichera, puis un paiement de démonstration (sans débit).",
+  consultationPayDateLabel: "Date du rendez-vous",
+  consultationPayPhoneLabel: "Téléphone utilisé à la réservation",
+  consultationPayFind: "Rechercher",
+  consultationPayNotFound: "Aucun dossier non payé pour cette date et ce numéro.",
+  consultationPayStatusLabel: "Statut",
+  consultationPayStatusUnpaid: "Non payé",
+  consultationPayPayBtn: "Payer",
+  consultationPayClose: "Fermer",
+  consultationPaidToast: "En démo, le paiement est enregistré. En production, Stripe sera utilisé ici.",
+  consultationStripeDemoTitle: "Paiement (démo)",
+  consultationStripeDemoHint:
+    "Le formulaire Stripe sera branché en production. Ici : simulation sans appel serveur.",
+  consultationStripeCardLabel: "Carte (inactive)",
+  consultationStripePayTest: "Payer en test",
+  consultationToastClose: "Fermer la notification",
 };
 
 export function getUiStrings(locale: AppLocale): UiStrings {

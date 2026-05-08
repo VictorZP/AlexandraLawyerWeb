@@ -29,11 +29,11 @@ export function AssociationsPage() {
   const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
 
   useEffect(() => {
-    setPage(1);
+    setPage((p) => (p === 1 ? p : 1));
   }, [regionId, categoryId, filtered.length]);
 
   useEffect(() => {
-    if (page > totalPages) setPage(totalPages);
+    setPage((p) => (p > totalPages ? totalPages : p));
   }, [page, totalPages]);
 
   const pageItems = useMemo(() => {

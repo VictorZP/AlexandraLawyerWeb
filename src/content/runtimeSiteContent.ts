@@ -13,16 +13,12 @@ const STORAGE_KEY = "legal-site-content-v1";
 
 const listeners = new Set<() => void>();
 
-function readFromStorage(): unknown | null {
-  if (typeof localStorage === "undefined") return null;
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw) as unknown;
-  } catch {
-    return null;
-  }
-}
+/**
+ * Для admin-сборки: useSyncExternalStore сравнивает снимки через Object.is.
+ * Нельзя возвращать новый объект из JSON.parse на каждый вызов getSnapshot — иначе React
+ * считает, что данные меняются каждый рендер, и падает с «Maximum update depth» (#185).
+ */
+let adminContentCache: { raw: string; data: SiteContent } | null = null;
 
 export function subscribeSiteContent(onStoreChange: () => void): () => void {
   const unsubLocale = subscribeLocale(onStoreChange);
@@ -44,8 +40,34 @@ function notify(): void {
 export function getSiteContentSnapshot(): SiteContent {
   const base = baseContent();
   if (!isAdminSiteBuild()) return base;
-  const parsed = readFromStorage();
-  if (parsed && isValidSiteContent(parsed)) return parsed;
+  if (typeof localStorage === "undefined") {
+    adminContentCache = null;
+    return base;
+  }
+  let raw: string | null;
+  try {
+    raw = localStorage.getItem(STORAGE_KEY);
+  } catch {
+    adminContentCache = null;
+    return base;
+  }
+  if (!raw) {
+    adminContentCache = null;
+    return base;
+  }
+  if (adminContentCache && adminContentCache.raw === raw) {
+    return adminContentCache.data;
+  }
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    if (parsed && isValidSiteContent(parsed)) {
+      adminContentCache = { raw, data: parsed as SiteContent };
+      return adminContentCache.data;
+    }
+  } catch {
+    /* ignore */
+  }
+  adminContentCache = null;
   return base;
 }
 
@@ -53,12 +75,15 @@ export function setSiteContentInBrowser(content: SiteContent): void {
   if (!isAdminSiteBuild()) {
     throw new Error("Сохранение в браузере доступно только в admin-сборке (VITE_SITE_MODE=admin).");
   }
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
+  const raw = JSON.stringify(content);
+  localStorage.setItem(STORAGE_KEY, raw);
+  adminContentCache = { raw, data: content };
   notify();
 }
 
 export function resetSiteContentInBrowser(): void {
   if (!isAdminSiteBuild()) return;
   localStorage.removeItem(STORAGE_KEY);
+  adminContentCache = null;
   notify();
 }

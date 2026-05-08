@@ -54,6 +54,8 @@ export function resolvePageBackdrop(pathname: string, site: SiteContent): Resolv
       return fromFields(site.laws);
     case "/associations":
       return fromFields(site.associations);
+    case "/consultation":
+      return fromFields(site.home);
     default:
       return fromFields(site.home);
   }

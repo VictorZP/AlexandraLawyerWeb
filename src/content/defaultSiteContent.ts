@@ -46,6 +46,7 @@ export const defaultSiteContent: SiteContent = {
       { id: "tile-business", sortOrder: 20, path: "/business", title: "Бизнес во Франции", hint: "ИП, компании, налоги" },
       { id: "tile-talent", sortOrder: 30, path: "/talent-passport", title: "Паспорт талант Франция", hint: "Passeport Talent" },
       { id: "tile-laws", sortOrder: 40, path: "/laws", title: "Интересные ЗАКОНЫ Франции", hint: "Нормы простым языком" },
+      { id: "tile-consult", sortOrder: 45, path: "/consultation", title: "Запись на консультацию", hint: "Календарь и оплата (демо)" },
       { id: "tile-assoc", sortOrder: 50, path: "/associations", title: "Русскоговорящие ассоциации", hint: "Каталог объединений" },
     ],
   },
