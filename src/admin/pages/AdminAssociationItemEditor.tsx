@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import type { AssociationEntry, SiteContent } from "../../content/types";
 import { setSiteContentInBrowser } from "../../content/runtimeSiteContent";
 import { useSiteContent } from "../../content/useSiteContent";
@@ -10,6 +10,7 @@ import { AdminTextField } from "../components/AdminTextField";
 
 export function AdminAssociationItemEditor() {
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const root = useSiteContent();
   const index = useMemo(() => root.associations.items.findIndex((i) => i.slug === slug), [root.associations.items, slug]);
   const [item, setItem] = useState<AssociationEntry | null>(null);
@@ -73,6 +74,16 @@ export function AdminAssociationItemEditor() {
     }
   };
 
+  const removeCardAndDetail = () => {
+    if (!slug || !window.confirm("Удалить карточку в каталоге и страницу «Подробнее» с этим slug? Это необратимо.")) {
+      return;
+    }
+    const items = root.associations.items.filter((i) => i.slug !== slug);
+    const details = root.associations.details.filter((d) => d.slug !== slug);
+    setSiteContentInBrowser({ ...root, associations: { ...root.associations, items, details } });
+    navigate("/admin/associations/items");
+  };
+
   return (
     <div className="admin-doc">
       <p className="admin-back">
@@ -124,6 +135,14 @@ export function AdminAssociationItemEditor() {
             <AdminMediaField label="Файл" kind="image" value={g.src ? g : null} onChange={(m) => updateGallery(gi, m)} />
           </div>
         ))}
+      </section>
+
+      <section className="admin-card glass admin-card--danger-zone">
+        <h2 className="admin-card__title">Удаление</h2>
+        <p className="admin-field__hint">Удаляются и карточка в списке, и внутренняя страница с тем же slug.</p>
+        <button type="button" className="admin-btn admin-btn--danger" onClick={removeCardAndDetail}>
+          Удалить организацию полностью
+        </button>
       </section>
 
       <AdminSaveBar message={msg} error={err} onSave={save} />

@@ -270,6 +270,26 @@
   margin: 0 0 0.85rem;
 }
 
+.admin-card__headrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.65rem;
+  margin-bottom: 0.85rem;
+}
+
+.admin-card__headrow .admin-card__title {
+  margin-bottom: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.admin-card--danger-zone {
+  border-color: rgba(220, 90, 90, 0.35);
+  margin-top: 1.5rem;
+}
+
 .admin-field {
   display: flex;
   flex-direction: column;

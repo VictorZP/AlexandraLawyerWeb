@@ -42,6 +42,21 @@ export type TopicPageBlock = PageBackdropFields & {
   paragraphs: string[];
 };
 
+/** Блок на странице «Законы»: название, ссылка на текст, тезисы */
+export type LawArticleBlock = {
+  id: string;
+  sortOrder: number;
+  title: string;
+  sourceUrl: string;
+  facts: string[];
+};
+
+export type LawsPageBlock = PageBackdropFields & {
+  pageTitle: string;
+  lead: string;
+  articles: LawArticleBlock[];
+};
+
 export type AssociationSpec = {
   label: string;
   value: string;
@@ -102,6 +117,6 @@ export type SiteContent = {
   emigration: TopicPageBlock;
   business: TopicPageBlock;
   talentPassport: TopicPageBlock;
-  laws: TopicPageBlock;
+  laws: LawsPageBlock;
   associations: AssociationsPageBlock;
 };

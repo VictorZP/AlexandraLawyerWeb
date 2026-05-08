@@ -8,6 +8,7 @@ import { AdminAssociationsPageEditor } from "./admin/pages/AdminAssociationsPage
 import { AdminDashboard } from "./admin/pages/AdminDashboard";
 import { AdminHomeEditor } from "./admin/pages/AdminHomeEditor";
 import { AdminSettingsPage } from "./admin/pages/AdminSettingsPage";
+import { AdminLawsEditor } from "./admin/pages/AdminLawsEditor";
 import { AdminTopicEditor } from "./admin/pages/AdminTopicEditor";
 import { Layout } from "./components/Layout";
 import { isAdminSiteBuild } from "./lib/siteMode";
@@ -31,7 +32,7 @@ export default function App() {
           <Route path="emigration" element={<AdminTopicEditor section="emigration" />} />
           <Route path="business" element={<AdminTopicEditor section="business" />} />
           <Route path="talent-passport" element={<AdminTopicEditor section="talentPassport" />} />
-          <Route path="laws" element={<AdminTopicEditor section="laws" />} />
+          <Route path="laws" element={<AdminLawsEditor />} />
           <Route path="associations" element={<AdminAssociationsPageEditor />} />
           <Route path="associations/items" element={<AdminAssociationItemsHub />} />
           <Route path="associations/items/:slug" element={<AdminAssociationItemEditor />} />

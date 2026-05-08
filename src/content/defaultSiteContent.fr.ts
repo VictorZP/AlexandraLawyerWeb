@@ -73,8 +73,29 @@ export const siteContentFr: SiteContent = {
     pageBackground: legalStock(5439449, "Analyse de contrats et documents"),
     ...V,
     pageTitle: "Lois françaises à connaître",
-    lead: "Brèves notes sur les textes avec renvois aux sources officielles.",
-    paragraphs: ["Ne remplace pas un conseil individualisé."],
+    lead: "Brèves notes avec renvois aux sources. Chaque bloc : intitulé, lien vers le texte, points clés.",
+    articles: [
+      {
+        id: "law-1",
+        sortOrder: 10,
+        title: "Legifrance — textes officiels",
+        sourceUrl: "https://www.legifrance.gouv.fr/",
+        facts: [
+          "Les versions à jour des codes et lois figurent sur Legifrance.",
+          "Vérifiez la date de dernière modification de l’article avant toute décision.",
+        ],
+      },
+      {
+        id: "law-2",
+        sortOrder: 20,
+        title: "Rappel sur le conseil juridique",
+        sourceUrl: "",
+        facts: [
+          "Les contenus du site sont informatifs.",
+          "Ils ne remplacent pas un conseil individualisé d’avocat.",
+        ],
+      },
+    ],
   },
   associations: {
     pageBackground: legalStock(7681090, "Façade d’un bâtiment institutionnel"),

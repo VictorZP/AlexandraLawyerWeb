@@ -3,12 +3,14 @@ import { AdminTextArea } from "./AdminTextArea";
 type Props = {
   paragraphs: string[];
   onChange: (next: string[]) => void;
+  /** По умолчанию: «Текстовые абзацы» */
+  legend?: string;
 };
 
-export function AdminParagraphsEditor({ paragraphs, onChange }: Props) {
+export function AdminParagraphsEditor({ paragraphs, onChange, legend = "Текстовые абзацы" }: Props) {
   return (
     <fieldset className="admin-fieldset">
-      <legend className="admin-fieldset__legend">Текстовые абзацы</legend>
+      <legend className="admin-fieldset__legend">{legend}</legend>
       {paragraphs.map((p, i) => (
         <AdminTextArea
           key={i}

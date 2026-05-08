@@ -8,13 +8,12 @@ import { AdminSaveBar } from "../components/AdminSaveBar";
 import { AdminTextArea } from "../components/AdminTextArea";
 import { AdminTextField } from "../components/AdminTextField";
 
-export type TopicSectionKey = "emigration" | "business" | "talentPassport" | "laws";
+export type TopicSectionKey = "emigration" | "business" | "talentPassport";
 
 const titles: Record<TopicSectionKey, string> = {
   emigration: "Эмиграция во Францию",
   business: "Бизнес во Франции",
   talentPassport: "Паспорт талант Франция",
-  laws: "Интересные законы Франции",
 };
 
 export function AdminTopicEditor({ section }: { section: TopicSectionKey }) {
