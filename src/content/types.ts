@@ -18,6 +18,8 @@ export type HomeSectionTile = {
 };
 
 export type HomeBlock = {
+  /** Полноэкранный фон за стеклянными блоками */
+  pageBackground: MediaRef | null;
   headlineMain: string;
   headlineAccent: string | null;
   lead: string;
@@ -29,9 +31,16 @@ export type HomeBlock = {
 };
 
 export type TopicPageBlock = {
+  pageBackground: MediaRef | null;
   pageTitle: string;
   lead: string;
   paragraphs: string[];
+};
+
+/** Три характеристики внизу оверлея (как «этажи / м² / спальни» в референсе) */
+export type AssociationSpec = {
+  label: string;
+  value: string;
 };
 
 export type AssociationFilterTab = {
@@ -43,20 +52,24 @@ export type AssociationEntry = {
   id: string;
   sortOrder: number;
   title: string;
-  /** Короткая строка под названием (как подзаголовок на woodlandhouse) */
+  /** Короткая строка под названием на карточке (всегда видна) */
   description: string;
-  /** Сайт ассоциации или страница подробнее */
+  /** Развёрнутый текст в прозрачном оверлее над кнопкой «Подробнее» */
+  hoverIntro: string;
+  /** Ровно три поля для нижней строки оверлея */
+  specs: AssociationSpec[];
   href: string | null;
   cover: MediaRef;
   regionId: string;
   categoryId: string;
-  /** Метаданные внизу карточки при наведении: город, год, тип */
-  meta: string | null;
 };
 
 export type AssociationsPageBlock = {
+  pageBackground: MediaRef | null;
   pageTitle: string;
   lead: string;
+  /** Сколько карточек на одной странице каталога */
+  itemsPerPage: number;
   regionTabs: AssociationFilterTab[];
   categoryTabs: AssociationFilterTab[];
   items: AssociationEntry[];

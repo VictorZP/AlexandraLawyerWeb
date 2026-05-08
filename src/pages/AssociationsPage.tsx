@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AssociationCard } from "../components/AssociationCard";
 import { getSiteContent } from "../content/defaultSiteContent";
 
@@ -6,6 +6,7 @@ export function AssociationsPage() {
   const { associations } = getSiteContent();
   const [regionId, setRegionId] = useState("all");
   const [categoryId, setCategoryId] = useState("all");
+  const [page, setPage] = useState(1);
 
   const items = useMemo(
     () => [...associations.items].sort((a, b) => a.sortOrder - b.sortOrder),
@@ -22,14 +23,48 @@ export function AssociationsPage() {
     [items, regionId, categoryId],
   );
 
+  const perPage = Math.max(1, associations.itemsPerPage);
+  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
+
+  useEffect(() => {
+    setPage(1);
+  }, [regionId, categoryId, filtered.length]);
+
+  useEffect(() => {
+    if (page > totalPages) setPage(totalPages);
+  }, [page, totalPages]);
+
+  const pageItems = useMemo(() => {
+    const start = (page - 1) * perPage;
+    return filtered.slice(start, start + perPage);
+  }, [filtered, page, perPage]);
+
   return (
     <>
-      <header className="assoc-page-header">
+      <header className="assoc-page-header glass panel">
         <h1 className="page-title">{associations.pageTitle}</h1>
         <p className="page-lead">{associations.lead}</p>
       </header>
 
-      <div className="assoc-filters panel">
+      <div className="assoc-filters glass panel">
+        <div className="assoc-filters__group">
+          <span className="assoc-filters__label" id="assoc-sphere-label">
+            Сфера деятельности
+          </span>
+          <div className="assoc-filters__tabs" role="group" aria-labelledby="assoc-sphere-label">
+            {associations.categoryTabs.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                className={"assoc-tab" + (categoryId === t.id ? " assoc-tab--active" : "")}
+                aria-pressed={categoryId === t.id}
+                onClick={() => setCategoryId(t.id)}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+        </div>
         <div className="assoc-filters__group">
           <span className="assoc-filters__label" id="assoc-region-label">
             Регион
@@ -48,31 +83,33 @@ export function AssociationsPage() {
             ))}
           </div>
         </div>
-        <div className="assoc-filters__group">
-          <span className="assoc-filters__label" id="assoc-cat-label">
-            Тип
-          </span>
-          <div className="assoc-filters__tabs" role="group" aria-labelledby="assoc-cat-label">
-            {associations.categoryTabs.map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                className={"assoc-tab" + (categoryId === t.id ? " assoc-tab--active" : "")}
-                aria-pressed={categoryId === t.id}
-                onClick={() => setCategoryId(t.id)}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
-        </div>
+
+        {totalPages > 1 ? (
+          <nav className="assoc-pagination" aria-label="Страницы каталога">
+            <span className="assoc-pagination__label">Страница</span>
+            <div className="assoc-pagination__tabs">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+                <button
+                  key={n}
+                  type="button"
+                  className={"assoc-tab assoc-tab--page" + (page === n ? " assoc-tab--active" : "")}
+                  aria-pressed={page === n}
+                  aria-current={page === n ? "page" : undefined}
+                  onClick={() => setPage(n)}
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
+          </nav>
+        ) : null}
       </div>
 
       {filtered.length === 0 ? (
-        <p className="assoc-empty">По выбранным фильтрам пока ничего нет — снимите фильтр или добавьте записи в админке.</p>
+        <p className="assoc-empty glass panel">По выбранным фильтрам пока ничего нет.</p>
       ) : (
         <div className="assoc-grid">
-          {filtered.map((item) => (
+          {pageItems.map((item) => (
             <AssociationCard key={item.id} item={item} />
           ))}
         </div>

@@ -9,7 +9,7 @@ export function HomePage() {
   return (
     <>
       <section className="hero">
-        <div>
+        <div className="panel glass hero-intro">
           <h1 className="hero__accent">
             {home.headlineMain}{" "}
             {home.headlineAccent ? <em>{home.headlineAccent}</em> : null}
@@ -24,7 +24,7 @@ export function HomePage() {
             </Link>
           </div>
         </div>
-        <div className="panel hero-card">
+        <div className="panel glass hero-card">
           <div className="hero-card__inner">
             <p className="hero-card__label">{home.panelTitle}</p>
             <p>{home.panelBody}</p>
@@ -39,7 +39,7 @@ export function HomePage() {
         <ul className="section-grid">
           {tiles.map((t) => (
             <li key={t.id}>
-              <Link className="section-tile" to={t.path}>
+              <Link className="section-tile glass" to={t.path}>
                 <span className="section-tile__title">{t.title}</span>
                 <span className="section-tile__hint">{t.hint}</span>
               </Link>
@@ -49,7 +49,7 @@ export function HomePage() {
       </section>
 
       {home.illustration ? (
-        <div className="panel home-illustration decorative-illustration">
+        <div className="panel glass home-illustration decorative-illustration">
           {home.illustrationHeading ? (
             <p className="hero-card__label">{home.illustrationHeading}</p>
           ) : null}

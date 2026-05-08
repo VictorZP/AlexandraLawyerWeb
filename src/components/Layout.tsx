@@ -1,5 +1,9 @@
 import type { ReactNode } from "react";
-import { NavLink } from "react-router-dom";
+import { useMemo } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import { getSiteContent } from "../content/defaultSiteContent";
+import { resolvePageBackground } from "../lib/resolvePageBackground";
+import { SiteBackground } from "./SiteBackground";
 
 const nav = [
   { to: "/", label: "Главная" },
@@ -11,12 +15,16 @@ const nav = [
 ];
 
 export function Layout({ children }: { children?: ReactNode }) {
+  const { pathname } = useLocation();
+  const bg = useMemo(() => resolvePageBackground(pathname, getSiteContent()), [pathname]);
+
   return (
     <div className="site">
+      <SiteBackground imageUrl={bg?.src ?? null} />
       <a href="#main" className="skip-link">
         К основному содержанию
       </a>
-      <header className="site-header">
+      <header className="site-header glass">
         <div className="site-header__inner">
           <NavLink to="/" className="brand" end>
             <span className="brand__mark" aria-hidden>
@@ -46,7 +54,7 @@ export function Layout({ children }: { children?: ReactNode }) {
       <main id="main" className="site-main">
         {children}
       </main>
-      <footer className="site-footer">
+      <footer className="site-footer glass">
         <p>
           Информация на сайте не является публичной офертой. Договор оказания услуг
           заключается отдельно.
