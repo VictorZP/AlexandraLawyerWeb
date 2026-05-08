@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import type { AssociationEntry } from "../content/types";
 
 type Props = {
@@ -8,11 +9,37 @@ type Props = {
 export function AssociationCard({ item }: Props) {
   const animRef = useRef<HTMLDivElement>(null);
   const [entered, setEntered] = useState(false);
-  const hasImage = Boolean(item.cover.src);
+  const slides = item.gallery.filter((m) => m.src);
+  const [index, setIndex] = useState(0);
+  const n = slides.length;
+  const indexSafe = n === 0 ? 0 : index % n;
+  const current = n > 0 ? slides[indexSafe] : null;
   const titleId = `assoc-title-${item.id}`;
-  const rootClass = ["assoc-card", !item.href ? "assoc-card--static" : "", !hasImage ? "assoc-card--nophoto" : ""]
-    .filter(Boolean)
-    .join(" ");
+
+  const go = useCallback(
+    (dir: -1 | 1) => (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (n < 2) return;
+      setIndex((i) => (i + dir + n * 10) % n);
+    },
+    [n],
+  );
+
+  const onKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (n < 2) return;
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        setIndex((i) => (i - 1 + n * 10) % n);
+      }
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        setIndex((i) => (i + 1) % n);
+      }
+    },
+    [n],
+  );
 
   useEffect(() => {
     const el = animRef.current;
@@ -35,27 +62,6 @@ export function AssociationCard({ item }: Props) {
     return () => io.disconnect();
   }, []);
 
-  useEffect(() => {
-    const el = animRef.current;
-    if (!el) return;
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const onScroll = () => {
-      if (mq.matches) {
-        el.style.setProperty("--px-text", "0px");
-        el.style.setProperty("--px-img", "0px");
-        return;
-      }
-      const rect = el.getBoundingClientRect();
-      const vh = window.innerHeight || 1;
-      const norm = (rect.top + rect.height / 2 - vh / 2) / vh;
-      el.style.setProperty("--px-text", `${(norm * 20).toFixed(2)}px`);
-      el.style.setProperty("--px-img", `${(-norm * 14).toFixed(2)}px`);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   const specs =
     item.specs.length >= 3
       ? item.specs.slice(0, 3)
@@ -64,63 +70,74 @@ export function AssociationCard({ item }: Props) {
           ...Array.from({ length: 3 - item.specs.length }, () => ({ label: "—", value: "—" })),
         ];
 
-  const cardInner = (
-    <>
-      <div className="assoc-card__media">
-        <div className="assoc-card__media-inner">
-          {hasImage ? (
-            <img src={item.cover.src!} alt={item.cover.alt} loading="lazy" />
-          ) : null}
-          <div className="assoc-card__scrim" aria-hidden />
-        </div>
-      </div>
-
-      <div className="assoc-card__baseline">
-        <h2 className="assoc-card__title" id={titleId}>
-          {item.title}
-        </h2>
-        <p className="assoc-card__desc">{item.description}</p>
-      </div>
-
-      <div className="assoc-card__overlay" role="presentation">
-        <p className="assoc-card__overlay-intro">{item.hoverIntro}</p>
-        {item.href ? (
-          <span className="assoc-card__btn">Подробнее</span>
-        ) : (
-          <span className="assoc-card__btn assoc-card__btn--muted">Ссылка появится позже</span>
-        )}
-        <div className="assoc-card__specs">
-          {specs.map((s, i) => (
-            <div key={i} className="assoc-card__spec">
-              <span className="assoc-card__spec-label">{s.label}</span>
-              <span className="assoc-card__spec-value">{s.value}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </>
-  );
+  const rootClass = "assoc-card" + (n === 0 ? " assoc-card--nophoto" : "");
 
   return (
     <div
       ref={animRef}
       className={"assoc-card-anim" + (entered ? " assoc-card-anim--entered" : "")}
+      onKeyDown={onKeyDown}
     >
-      {item.href ? (
-        <a
-          className={rootClass}
-          href={item.href}
-          target="_blank"
-          rel="noreferrer"
-          aria-labelledby={titleId}
-        >
-          {cardInner}
-        </a>
-      ) : (
-        <article className={rootClass} aria-labelledby={titleId}>
-          {cardInner}
-        </article>
-      )}
+      <article className={rootClass} aria-labelledby={titleId} tabIndex={0}>
+        <div className="assoc-card__media">
+          <div className="assoc-card__media-inner">
+            {current?.src ? <img src={current.src} alt={current.alt} className="img-parallax" loading="lazy" /> : null}
+            <div className="assoc-card__scrim" aria-hidden />
+          </div>
+          {n > 1 ? (
+            <div className="assoc-card__carousel-ui">
+              <button type="button" className="assoc-card__carousel-btn" aria-label="Предыдущее фото" onClick={go(-1)}>
+                ‹
+              </button>
+              <button type="button" className="assoc-card__carousel-btn" aria-label="Следующее фото" onClick={go(1)}>
+                ›
+              </button>
+              <div className="assoc-card__dots" aria-hidden>
+                {slides.map((_, i) => (
+                  <span key={i} className={"assoc-card__dot" + (i === index % n ? " assoc-card__dot--on" : "")} />
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </div>
+
+        <div className="assoc-card__baseline">
+          <h2 className="assoc-card__title" id={titleId}>
+            {item.title}
+          </h2>
+          <p className="assoc-card__desc">{item.description}</p>
+        </div>
+
+        <div className="assoc-card__overlay" role="presentation">
+          <p className="assoc-card__overlay-intro">{item.hoverIntro}</p>
+          <div className="assoc-card__actions">
+            <Link className="assoc-card__cta" to={`/associations/${item.slug}`} onClick={(e) => e.stopPropagation()}>
+              Подробнее
+            </Link>
+            {item.externalUrl ? (
+              <a
+                className="assoc-card__cta assoc-card__cta--external"
+                href={item.externalUrl}
+                target="_blank"
+                rel="noreferrer"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Сайт ассоциации
+              </a>
+            ) : (
+              <span className="assoc-card__cta assoc-card__cta--disabled">Сайт ассоциации</span>
+            )}
+          </div>
+          <div className="assoc-card__specs">
+            {specs.map((s, i) => (
+              <div key={i} className="assoc-card__spec">
+                <span className="assoc-card__spec-label">{s.label}</span>
+                <span className="assoc-card__spec-value">{s.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </article>
     </div>
   );
 }

@@ -11,8 +11,8 @@
   --font-sans: "Source Sans 3", system-ui, sans-serif;
   --radius: 12px;
   --shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-  --glass-bg: rgba(18, 12, 28, 0.5);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(14, 10, 22, 0.36);
+  --glass-border: rgba(255, 255, 255, 0.14);
 }
 
 *,
@@ -85,7 +85,13 @@ a:hover {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transform: scale(1.05);
+  transform: scale(1.08) translate3d(0, calc(-1 * var(--scroll-parallax, 0px)), 0);
+  will-change: transform;
+}
+
+.img-parallax {
+  transform: translate3d(0, calc(-1 * var(--scroll-parallax, 0px)), 0);
+  will-change: transform;
 }
 
 .site-bg__veil {
@@ -526,9 +532,18 @@ a:hover {
 
 .assoc-filters {
   display: flex;
-  flex-direction: column;
-  gap: 1.15rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1.15rem 2rem;
   margin-bottom: 1.75rem;
+}
+
+@media (max-width: 720px) {
+  .assoc-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 .assoc-filters__group {
@@ -664,18 +679,11 @@ a:hover {
   color: inherit;
   outline: none;
   box-shadow: 0 22px 56px rgba(0, 0, 0, 0.42);
-}
-
-.assoc-card:not(.assoc-card--static) {
-  cursor: pointer;
+  cursor: default;
 }
 
 .assoc-card:focus-visible {
   box-shadow: 0 0 0 2px rgba(8, 5, 12, 0.9), 0 0 0 4px var(--color-accent);
-}
-
-.assoc-card--static {
-  cursor: default;
 }
 
 .assoc-card__media {
@@ -690,22 +698,69 @@ a:hover {
 
 .assoc-card__media-inner {
   position: absolute;
-  inset: -6% 0;
-  transform: translateY(var(--px-img, 0px));
-  will-change: transform;
+  inset: -8% 0;
 }
 
 .assoc-card__media-inner img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.03);
-  transition: transform 0.55s ease;
 }
 
-.assoc-card:hover .assoc-card__media-inner img,
-.assoc-card:focus-within .assoc-card__media-inner img {
-  transform: scale(1.07);
+.assoc-card__carousel-ui {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 3.25rem;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.35rem;
+  pointer-events: none;
+}
+
+.assoc-card__carousel-btn {
+  pointer-events: auto;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(8, 6, 14, 0.45);
+  color: #fff;
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.assoc-card__carousel-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.assoc-card__dots {
+  position: absolute;
+  left: 50%;
+  bottom: -1.85rem;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.35rem;
+  pointer-events: none;
+}
+
+.assoc-card__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.assoc-card__dot--on {
+  background: var(--color-accent);
 }
 
 .assoc-card__scrim {
@@ -728,7 +783,6 @@ a:hover {
   z-index: 1;
   padding: 1.35rem 1.1rem 1.55rem;
   text-align: center;
-  transform: translateY(var(--px-text, 0px));
   transition: opacity 0.3s ease;
 }
 
@@ -779,7 +833,7 @@ a:hover {
 .assoc-card:hover .assoc-card__overlay,
 .assoc-card:focus-within .assoc-card__overlay {
   opacity: 1;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .assoc-card__overlay-intro {
@@ -791,41 +845,49 @@ a:hover {
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
 }
 
-.assoc-card__btn {
+.assoc-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.assoc-card__cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 1.35rem;
+  padding: 0.48rem 1.1rem;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.88);
   color: #faf7f0;
   font-size: 0.78rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  background: rgba(8, 6, 14, 0.25);
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
-.assoc-card:hover .assoc-card__btn,
-.assoc-card:focus-within .assoc-card__btn {
+.assoc-card__cta:hover {
+  text-decoration: none;
   background: rgba(250, 247, 240, 0.95);
   color: #1a1224;
   border-color: rgba(250, 247, 240, 0.95);
 }
 
-.assoc-card__btn--muted {
-  border-color: rgba(255, 255, 255, 0.32);
-  color: rgba(244, 240, 232, 0.7);
+.assoc-card__cta--external {
   text-transform: none;
-  letter-spacing: 0.02em;
-  font-weight: 500;
+  letter-spacing: 0.03em;
+  font-weight: 600;
 }
 
-.assoc-card:hover .assoc-card__btn--muted,
-.assoc-card:focus-within .assoc-card__btn--muted {
-  background: transparent;
-  color: rgba(244, 240, 232, 0.92);
-  border-color: rgba(255, 255, 255, 0.5);
+.assoc-card__cta--disabled {
+  opacity: 0.45;
+  pointer-events: none;
+  border-color: rgba(255, 255, 255, 0.25);
+  color: rgba(244, 240, 232, 0.65);
 }
 
 .assoc-card__specs {
@@ -867,5 +929,70 @@ a:hover {
 
   .assoc-card__spec {
     text-align: left;
+  }
+}
+
+.assoc-detail-back {
+  margin: 0 0 1rem;
+}
+
+.assoc-detail-back a {
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.assoc-detail-back a:hover {
+  text-decoration: underline;
+}
+
+.assoc-detail-header__actions {
+  margin-top: 1rem;
+}
+
+.assoc-detail-gallery {
+  margin-top: 2rem;
+}
+
+.assoc-detail-gallery__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.assoc-detail-gallery__grid .media-slot img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.assoc-detail-video {
+  margin-top: 2rem;
+}
+
+.assoc-detail-video__frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+}
+
+.assoc-detail-video__frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-bg__image,
+  .img-parallax {
+    transform: none !important;
+    will-change: auto;
   }
 }

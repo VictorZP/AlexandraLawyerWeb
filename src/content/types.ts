@@ -1,5 +1,5 @@
 /**
- * Контент сайта = контракт для фронта и будущей админки (те же сущности и поля).
+ * Контент сайта = контракт для фронта и админки (одинаковая структура сущностей).
  */
 
 export type MediaRef = {
@@ -8,7 +8,6 @@ export type MediaRef = {
   caption?: string | null;
 };
 
-/** Карточка на главной — ведёт на раздел */
 export type HomeSectionTile = {
   id: string;
   path: string;
@@ -18,7 +17,6 @@ export type HomeSectionTile = {
 };
 
 export type HomeBlock = {
-  /** Полноэкранный фон за стеклянными блоками */
   pageBackground: MediaRef | null;
   headlineMain: string;
   headlineAccent: string | null;
@@ -37,7 +35,6 @@ export type TopicPageBlock = {
   paragraphs: string[];
 };
 
-/** Три характеристики внизу оверлея (как «этажи / м² / спальни» в референсе) */
 export type AssociationSpec = {
   label: string;
   value: string;
@@ -48,31 +45,46 @@ export type AssociationFilterTab = {
   label: string;
 };
 
+/** Карточка в каталоге: галерея на карточке, slug внутренней страницы, внешний сайт */
 export type AssociationEntry = {
   id: string;
+  /** URL-часть: /associations/:slug */
+  slug: string;
   sortOrder: number;
   title: string;
-  /** Короткая строка под названием на карточке (всегда видна) */
   description: string;
-  /** Развёрнутый текст в прозрачном оверлее над кнопкой «Подробнее» */
   hoverIntro: string;
-  /** Ровно три поля для нижней строки оверлея */
   specs: AssociationSpec[];
-  href: string | null;
-  cover: MediaRef;
+  /** Сайт организации — кнопка «Сайт ассоциации» */
+  externalUrl: string | null;
+  /** 3–5 фото для карусели (админка: CRUD элементов массива) */
+  gallery: MediaRef[];
   regionId: string;
   categoryId: string;
+};
+
+/** Внутренняя страница «Подробнее» — тот же slug, что у карточки */
+export type AssociationDetailPageBlock = {
+  slug: string;
+  pageBackground: MediaRef | null;
+  title: string;
+  lead: string;
+  paragraphs: string[];
+  gallery: MediaRef[];
+  externalUrl: string;
+  /** Например, embed YouTube — URL для iframe */
+  videoEmbedUrl?: string | null;
 };
 
 export type AssociationsPageBlock = {
   pageBackground: MediaRef | null;
   pageTitle: string;
   lead: string;
-  /** Сколько карточек на одной странице каталога */
   itemsPerPage: number;
   regionTabs: AssociationFilterTab[];
   categoryTabs: AssociationFilterTab[];
   items: AssociationEntry[];
+  details: AssociationDetailPageBlock[];
 };
 
 export type SiteContent = {

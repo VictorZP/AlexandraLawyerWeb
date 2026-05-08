@@ -6,6 +6,7 @@ import { BusinessPage } from "./pages/BusinessPage";
 import { TalentPassportPage } from "./pages/TalentPassportPage";
 import { LawsPage } from "./pages/LawsPage";
 import { AssociationsPage } from "./pages/AssociationsPage";
+import { AssociationDetailPage } from "./pages/AssociationDetailPage";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/talent-passport" element={<TalentPassportPage />} />
         <Route path="/laws" element={<LawsPage />} />
         <Route path="/associations" element={<AssociationsPage />} />
+        <Route path="/associations/:slug" element={<AssociationDetailPage />} />
       </Routes>
     </Layout>
   );

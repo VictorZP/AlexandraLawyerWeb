@@ -19,7 +19,7 @@ export function MediaSlot({ media, emptyLabel, className = "", imgClassName = ""
 
   return (
     <figure className={`media-slot ${className}`.trim()}>
-      <img className={imgClassName} src={media.src} alt={media.alt} loading="lazy" />
+      <img className={`img-parallax ${imgClassName}`.trim()} src={media.src} alt={media.alt} loading="lazy" />
       {media.caption ? <figcaption className="media-slot__caption">{media.caption}</figcaption> : null}
     </figure>
   );

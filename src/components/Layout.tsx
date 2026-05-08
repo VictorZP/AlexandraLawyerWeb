@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { useMemo } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { getSiteContent } from "../content/defaultSiteContent";
+import { useGlobalScrollParallax } from "../hooks/useGlobalScrollParallax";
 import { resolvePageBackground } from "../lib/resolvePageBackground";
 import { SiteBackground } from "./SiteBackground";
 
@@ -15,6 +16,7 @@ const nav = [
 ];
 
 export function Layout({ children }: { children?: ReactNode }) {
+  useGlobalScrollParallax();
   const { pathname } = useLocation();
   const bg = useMemo(() => resolvePageBackground(pathname, getSiteContent()), [pathname]);
 
