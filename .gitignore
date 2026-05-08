@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+build/
+*.local
+
+# Environment and secrets (never commit)
+.env
+.env.*
+!.env.example
+
+# Keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+id_rsa
+id_rsa.pub
+*.secret
+
+# Logs and debug
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# TypeScript / tooling caches
+*.tsbuildinfo
+.vite/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Optional local tooling (may contain paths or tokens)
+.vercel/
+.netlify/
+
+# Supabase local (if used later)
+.branches/
+.temp/
