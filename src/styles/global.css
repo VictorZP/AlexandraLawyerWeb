@@ -458,6 +458,20 @@ a:hover {
 }
 
 /* ——— Текстовые разделы ——— */
+.topic-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.topic-page__header .page-title {
+  margin-bottom: 0.45rem;
+}
+
+.topic-page__lead {
+  margin-bottom: 0;
+}
+
 .topic-body p {
   margin: 0 0 1rem;
 }
@@ -712,16 +726,15 @@ a:hover {
   left: 0;
   right: 0;
   bottom: 3.25rem;
-  z-index: 3;
+  z-index: 5;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 0.35rem;
-  pointer-events: none;
+  outline: none;
 }
 
 .assoc-card__carousel-btn {
-  pointer-events: auto;
   width: 2rem;
   height: 2rem;
   border-radius: 999px;
@@ -786,8 +799,7 @@ a:hover {
   transition: opacity 0.3s ease;
 }
 
-.assoc-card:hover .assoc-card__baseline,
-.assoc-card:focus-within .assoc-card__baseline {
+.assoc-card:hover .assoc-card__baseline {
   opacity: 0;
 }
 
@@ -820,19 +832,31 @@ a:hover {
   justify-content: center;
   align-items: center;
   text-align: center;
-  gap: 0.85rem;
   padding: 1.35rem 1.1rem 1.15rem;
-  background: rgba(10, 7, 16, 0.22);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: transparent;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.38s ease;
+  transition: opacity 0.32s ease;
 }
 
-.assoc-card:hover .assoc-card__overlay,
-.assoc-card:focus-within .assoc-card__overlay {
+.assoc-card:hover .assoc-card__overlay {
   opacity: 1;
+}
+
+.assoc-card__overlay-inner {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1rem 0.85rem 0.85rem;
+  border-radius: calc(var(--radius) - 2px);
+  background: rgba(12, 9, 18, 0.42);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
   pointer-events: auto;
 }
 

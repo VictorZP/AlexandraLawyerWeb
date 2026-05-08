@@ -8,6 +8,7 @@ type Props = {
 
 export function AssociationCard({ item }: Props) {
   const animRef = useRef<HTMLDivElement>(null);
+  const articleRef = useRef<HTMLElement>(null);
   const [entered, setEntered] = useState(false);
   const slides = item.gallery.filter((m) => m.src);
   const [index, setIndex] = useState(0);
@@ -15,6 +16,14 @@ export function AssociationCard({ item }: Props) {
   const indexSafe = n === 0 ? 0 : index % n;
   const current = n > 0 ? slides[indexSafe] : null;
   const titleId = `assoc-title-${item.id}`;
+
+  const blurIfInsideCard = useCallback(() => {
+    const root = articleRef.current;
+    const ae = document.activeElement;
+    if (root && ae instanceof HTMLElement && root.contains(ae)) {
+      ae.blur();
+    }
+  }, []);
 
   const go = useCallback(
     (dir: -1 | 1) => (e: React.MouseEvent) => {
@@ -26,7 +35,7 @@ export function AssociationCard({ item }: Props) {
     [n],
   );
 
-  const onKeyDown = useCallback(
+  const onCarouselKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (n < 2) return;
       if (e.key === "ArrowLeft") {
@@ -76,29 +85,18 @@ export function AssociationCard({ item }: Props) {
     <div
       ref={animRef}
       className={"assoc-card-anim" + (entered ? " assoc-card-anim--entered" : "")}
-      onKeyDown={onKeyDown}
     >
-      <article className={rootClass} aria-labelledby={titleId} tabIndex={0}>
+      <article
+        ref={articleRef}
+        className={rootClass}
+        aria-labelledby={titleId}
+        onMouseLeave={blurIfInsideCard}
+      >
         <div className="assoc-card__media">
           <div className="assoc-card__media-inner">
             {current?.src ? <img src={current.src} alt={current.alt} className="img-parallax" loading="lazy" /> : null}
             <div className="assoc-card__scrim" aria-hidden />
           </div>
-          {n > 1 ? (
-            <div className="assoc-card__carousel-ui">
-              <button type="button" className="assoc-card__carousel-btn" aria-label="Предыдущее фото" onClick={go(-1)}>
-                ‹
-              </button>
-              <button type="button" className="assoc-card__carousel-btn" aria-label="Следующее фото" onClick={go(1)}>
-                ›
-              </button>
-              <div className="assoc-card__dots" aria-hidden>
-                {slides.map((_, i) => (
-                  <span key={i} className={"assoc-card__dot" + (i === index % n ? " assoc-card__dot--on" : "")} />
-                ))}
-              </div>
-            </div>
-          ) : null}
         </div>
 
         <div className="assoc-card__baseline">
@@ -108,35 +106,53 @@ export function AssociationCard({ item }: Props) {
           <p className="assoc-card__desc">{item.description}</p>
         </div>
 
-        <div className="assoc-card__overlay" role="presentation">
-          <p className="assoc-card__overlay-intro">{item.hoverIntro}</p>
-          <div className="assoc-card__actions">
-            <Link className="assoc-card__cta" to={`/associations/${item.slug}`} onClick={(e) => e.stopPropagation()}>
-              Подробнее
-            </Link>
-            {item.externalUrl ? (
-              <a
-                className="assoc-card__cta assoc-card__cta--external"
-                href={item.externalUrl}
-                target="_blank"
-                rel="noreferrer"
-                onClick={(e) => e.stopPropagation()}
-              >
-                Сайт ассоциации
-              </a>
-            ) : (
-              <span className="assoc-card__cta assoc-card__cta--disabled">Сайт ассоциации</span>
-            )}
-          </div>
-          <div className="assoc-card__specs">
-            {specs.map((s, i) => (
-              <div key={i} className="assoc-card__spec">
-                <span className="assoc-card__spec-label">{s.label}</span>
-                <span className="assoc-card__spec-value">{s.value}</span>
-              </div>
-            ))}
+        <div className="assoc-card__overlay">
+          <div className="assoc-card__overlay-inner">
+            <p className="assoc-card__overlay-intro">{item.hoverIntro}</p>
+            <div className="assoc-card__actions">
+              <Link className="assoc-card__cta" to={`/associations/${item.slug}`}>
+                Подробнее
+              </Link>
+              {item.externalUrl ? (
+                <a className="assoc-card__cta assoc-card__cta--external" href={item.externalUrl} target="_blank" rel="noreferrer">
+                  Сайт ассоциации
+                </a>
+              ) : (
+                <span className="assoc-card__cta assoc-card__cta--disabled">Сайт — в админке</span>
+              )}
+            </div>
+            <div className="assoc-card__specs">
+              {specs.map((s, i) => (
+                <div key={i} className="assoc-card__spec">
+                  <span className="assoc-card__spec-label">{s.label}</span>
+                  <span className="assoc-card__spec-value">{s.value}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
+
+        {n > 1 ? (
+          <div
+            className="assoc-card__carousel-ui"
+            tabIndex={0}
+            onKeyDown={onCarouselKeyDown}
+            role="toolbar"
+            aria-label="Фотографии объединения"
+          >
+            <button type="button" className="assoc-card__carousel-btn" aria-label="Предыдущее фото" onClick={go(-1)}>
+              ‹
+            </button>
+            <button type="button" className="assoc-card__carousel-btn" aria-label="Следующее фото" onClick={go(1)}>
+              ›
+            </button>
+            <div className="assoc-card__dots" aria-hidden>
+              {slides.map((_, i) => (
+                <span key={i} className={"assoc-card__dot" + (i === index % n ? " assoc-card__dot--on" : "")} />
+              ))}
+            </div>
+          </div>
+        ) : null}
       </article>
     </div>
   );

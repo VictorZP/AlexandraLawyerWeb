@@ -1,25 +1,22 @@
 import type { SiteContent } from "./types";
 
-const u = (id: string, w = 2000) =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=75`;
+/** Фон страницы: нейтральное демо-фото по seed (picsum); в админке — свой URL */
+const bg = (seed: string) => ({
+  src: `https://picsum.photos/seed/${seed}/2000/1200`,
+  alt: "",
+  caption: null as string | null,
+});
 
-/** Демо-иллюстрации (Unsplash); в админке заменяются на фото организаций / Storage */
-const g = {
-  books: (alt: string) => ({ src: u("photo-1481627834876-b7833e8f5570", 1400), alt, caption: null }),
-  meet: (alt: string) => ({ src: u("photo-1522071820081-009f0129c71c", 1400), alt, caption: null }),
-  paris: (alt: string) => ({ src: u("photo-1502602898536-47ce93c7a421", 1400), alt, caption: null }),
-  stage: (alt: string) => ({ src: u("photo-1503095396549-807759245b35", 1400), alt, caption: null }),
-  lecture: (alt: string) => ({ src: u("photo-1544531586-23383578a2f3", 1400), alt, caption: null }),
-  flags: (alt: string) => ({ src: u("photo-1529107386315-c1ea45865684", 1400), alt, caption: null }),
-  office: (alt: string) => ({ src: u("photo-1497366216548-37526070297c", 1400), alt, caption: null }),
-  court: (alt: string) => ({ src: u("photo-1589829545856-d10d557cf95f", 1400), alt, caption: null }),
-  school: (alt: string) => ({ src: u("photo-1503676260728-1c00da094a0b", 1400), alt, caption: null }),
-  globe: (alt: string) => ({ src: u("photo-1451187580459-43490279c0fa", 1400), alt, caption: null }),
-};
+/** Галерея карточки: те же seed-и заменяются в админке на фото организации */
+const ph = (seed: string, alt: string) => ({
+  src: `https://picsum.photos/seed/${seed}/960/600`,
+  alt,
+  caption: null as string | null,
+});
 
 export const defaultSiteContent: SiteContent = {
   home: {
-    pageBackground: { src: u("photo-1431274172761-fca41d930e6f"), alt: "", caption: null },
+    pageBackground: bg("site-home"),
     headlineMain: "Юридическая работа во Франции —",
     headlineAccent: "спокойно и по правилам",
     lead:
@@ -38,7 +35,7 @@ export const defaultSiteContent: SiteContent = {
     ],
   },
   emigration: {
-    pageBackground: { src: u("photo-1488646959804-013271964cdf"), alt: "", caption: null },
+    pageBackground: bg("site-emigration"),
     pageTitle: "Эмиграция во Францию",
     lead: "Раздел для материалов о легализации и жизни во Франции — тексты и фон страницы из админки.",
     paragraphs: [
@@ -47,28 +44,28 @@ export const defaultSiteContent: SiteContent = {
     ],
   },
   business: {
-    pageBackground: { src: u("photo-1497366216548-37526070297c"), alt: "", caption: null },
+    pageBackground: bg("site-business"),
     pageTitle: "Бизнес во Франции",
     lead: "Корпоративное и предпринимательское право — контент подключается из CMS.",
     paragraphs: ["Обзоры форм деятельности, налоги и ссылки на официальные источники."],
   },
   talentPassport: {
-    pageBackground: { src: u("photo-1502602898536-47ce93c7a421"), alt: "", caption: null },
+    pageBackground: bg("site-talent"),
     pageTitle: "Паспорт талант Франция",
     lead: "Программа Passeport Talent и смежные статусы.",
     paragraphs: ["Категории, контракт, доказательства квалификации, продления."],
   },
   laws: {
-    pageBackground: { src: u("photo-1481627834876-b7833e8f5570"), alt: "", caption: null },
+    pageBackground: bg("site-laws"),
     pageTitle: "Интересные ЗАКОНЫ Франции",
     lead: "Короткие заметки о нормах с отсылками к источникам.",
     paragraphs: ["Не заменяет индивидуальную консультацию."],
   },
   associations: {
-    pageBackground: { src: u("photo-1529156069898-49953e39b3ac"), alt: "", caption: null },
+    pageBackground: bg("site-associations"),
     pageTitle: "Русскоговорящие ассоциации во Франции",
     lead:
-      "Ниже — реальные организации с публичными сайтами (проверьте актуальность ссылок перед запуском). На карточке: карусель фото, «Подробнее» — наша страница, «Сайт ассоциации» — внешняя ссылка. Все поля дублируются в админке.",
+      "Организации с проверяемыми официальными сайтами (AFR, КСОРС, AAJFR, CLCR). Демо-фото — нейтральные заглушки picsum; ссылки и изображения заменяются в админке. На карточке: карусель, «Подробнее» — наша страница, «Сайт ассоциации» — внешняя ссылка (если задана).",
     itemsPerPage: 6,
     regionTabs: [
       { id: "all", label: "Все регионы" },
@@ -96,7 +93,7 @@ export const defaultSiteContent: SiteContent = {
           { label: "Сайт", value: "afr-russe.fr" },
         ],
         externalUrl: "https://www.afr-russe.fr/",
-        gallery: [g.books("Зал"), g.lecture("Лекция"), g.stage("Сцена"), g.paris("Париж")],
+        gallery: [ph("afr-g1", "Фото 1"), ph("afr-g2", "Фото 2"), ph("afr-g3", "Фото 3"), ph("afr-g4", "Фото 4")],
         regionId: "national",
         categoryId: "culture",
       },
@@ -114,7 +111,7 @@ export const defaultSiteContent: SiteContent = {
           { label: "Сайт", value: "conseil-russes-france.org" },
         ],
         externalUrl: "https://conseil-russes-france.org/ru/",
-        gallery: [g.meet("Встреча"), g.flags("Сообщество"), g.globe("Связь"), g.paris("Париж")],
+        gallery: [ph("cso-g1", "Фото 1"), ph("cso-g2", "Фото 2"), ph("cso-g3", "Фото 3"), ph("cso-g4", "Фото 4")],
         regionId: "national",
         categoryId: "coord",
       },
@@ -132,7 +129,7 @@ export const defaultSiteContent: SiteContent = {
           { label: "Сайт", value: "aajfr.org" },
         ],
         externalUrl: "https://www.aajfr.org/",
-        gallery: [g.court("Правосудие"), g.office("Офис"), g.meet("Переговоры"), g.books("Кодексы")],
+        gallery: [ph("aaj-g1", "Фото 1"), ph("aaj-g2", "Фото 2"), ph("aaj-g3", "Фото 3"), ph("aaj-g4", "Фото 4")],
         regionId: "paris",
         categoryId: "law",
       },
@@ -150,7 +147,7 @@ export const defaultSiteContent: SiteContent = {
           { label: "Сайт", value: "clcr.ru" },
         ],
         externalUrl: "https://www.clcr.ru/",
-        gallery: [g.school("Учёба"), g.stage("Концерт"), g.books("Библиотека"), g.lecture("Урок")],
+        gallery: [ph("clc-g1", "Фото 1"), ph("clc-g2", "Фото 2"), ph("clc-g3", "Фото 3"), ph("clc-g4", "Фото 4")],
         regionId: "paris",
         categoryId: "culture",
       },
@@ -161,14 +158,14 @@ export const defaultSiteContent: SiteContent = {
         title: "Union des Russophones de France (URF)",
         description: "Союз русофонов: продвижение русского языка и интересов русскоязычных во Франции.",
         hoverIntro:
-          "URF — объединение по закону 1901 года; цели включают поддержку русского языка и культурного разнообразия. Контакты и документы — на официальном сайте.",
+          "URF — объединение по закону 1901 года. Публичный URL сайта уточните и подставьте в админке (здесь внешняя кнопка отключена как заглушка).",
         specs: [
           { label: "Сфера", value: "Русофония" },
           { label: "Статус", value: "Ассоциация 1901" },
-          { label: "Сайт", value: "russophonie.org" },
+          { label: "Сайт", value: "заглушка" },
         ],
-        externalUrl: "https://www.russophonie.org/",
-        gallery: [g.flags("Языки"), g.meet("Встреча"), g.paris("Париж"), g.globe("Сеть"), g.stage("Форум")],
+        externalUrl: null,
+        gallery: [ph("urf-g1", "Фото 1"), ph("urf-g2", "Фото 2"), ph("urf-g3", "Фото 3"), ph("urf-g4", "Фото 4"), ph("urf-g5", "Фото 5")],
         regionId: "paris",
         categoryId: "culture",
       },
@@ -176,67 +173,67 @@ export const defaultSiteContent: SiteContent = {
     details: [
       {
         slug: "afr",
-        pageBackground: { src: u("photo-1544531586-23383578a2f3", 2000), alt: "", caption: null },
+        pageBackground: bg("detail-afr"),
         title: "Association française des russisants (AFR)",
         lead: "Французская ассоциация преподавателей и любителей русского языка и культуры.",
         paragraphs: [
           "AFR ведёт работу с аудиторией, изучающей русский во Франции: публикации, олимпиады, профессиональные встречи педагогов.",
           "Актуальные программы и контакты смотрите на официальном сайте afr-russe.fr — здесь краткая справка для каталога.",
         ],
-        gallery: [g.books("Журнал и книги"), g.lecture("Лекция"), g.stage("Мероприятие")],
+        gallery: [ph("afr-d1", "Фото 1"), ph("afr-d2", "Фото 2"), ph("afr-d3", "Фото 3")],
         externalUrl: "https://www.afr-russe.fr/",
         videoEmbedUrl: null,
       },
       {
         slug: "csorf",
-        pageBackground: { src: u("photo-1529107386315-c1ea45865684", 2000), alt: "", caption: null },
+        pageBackground: bg("detail-csorf"),
         title: "Координационный совет российских соотечественников во Франции",
         lead: "Площадка координации общественных организаций и новостей соотечественников.",
         paragraphs: [
           "На сайте conseil-russes-france.org публикуются новости, материалы о жизни диаспоры и раздел об ассоциациях.",
           "Эта страница — витрина в нашем каталоге; юридические вопросы решаются напрямую с выбранной организацией.",
         ],
-        gallery: [g.meet("Совещание"), g.globe("Связь"), g.flags("Диаспора")],
+        gallery: [ph("cso-d1", "Фото 1"), ph("cso-d2", "Фото 2"), ph("cso-d3", "Фото 3")],
         externalUrl: "https://conseil-russes-france.org/ru/",
         videoEmbedUrl: null,
       },
       {
         slug: "aajfr",
-        pageBackground: { src: u("photo-1589829545856-d10d557cf95f", 2000), alt: "", caption: null },
+        pageBackground: bg("detail-aajfr"),
         title: "AAJFR — ассоциация франко-русских адвокатов и юристов",
         lead: "Профессиональное объединение юристов, работающих с франко-российским правом.",
         paragraphs: [
           "Штаб-квартира указывается на сайте aajfr.org (Париж, площадка у Ordre des avocats).",
           "Для консультации по делу обращайтесь напрямую к адвокату; наш сайт не является представителем палаты.",
         ],
-        gallery: [g.court("Суд"), g.office("Юристы"), g.meet("Встреча")],
+        gallery: [ph("aaj-d1", "Фото 1"), ph("aaj-d2", "Фото 2"), ph("aaj-d3", "Фото 3")],
         externalUrl: "https://www.aajfr.org/",
         videoEmbedUrl: null,
       },
       {
         slug: "clcr",
-        pageBackground: { src: u("photo-1503676260728-1c00da094a0b", 2000), alt: "", caption: null },
+        pageBackground: bg("detail-clcr"),
         title: "Центр русского языка и культуры (CLCR)",
         lead: "Образовательные и культурные программы для русскоязычной аудитории.",
         paragraphs: [
           "Информация о курсах и событиях размещается на clcr.ru.",
           "Перед записью уточняйте расписание и условия на официальном ресурсе организации.",
         ],
-        gallery: [g.school("Урок"), g.stage("Концерт"), g.books("Чтение"), g.lecture("Лекторий")],
+        gallery: [ph("clc-d1", "Фото 1"), ph("clc-d2", "Фото 2"), ph("clc-d3", "Фото 3"), ph("clc-d4", "Фото 4")],
         externalUrl: "https://www.clcr.ru/",
         videoEmbedUrl: null,
       },
       {
         slug: "urf",
-        pageBackground: { src: u("photo-1451187580459-43490279c0fa", 2000), alt: "", caption: null },
+        pageBackground: bg("detail-urf"),
         title: "Union des Russophones de France",
         lead: "Союз русофонов Франции — продвижение языка и интересов русскоязычных.",
         paragraphs: [
-          "URF действует как ассоциация по закону 1901 года; устав и коммуникации доступны на russophonie.org.",
-          "Мы не проверяли работоспособность всех внешних страниц в момент сборки демо — при ошибке 404 замените URL в админке.",
+          "URF действует как ассоциация по закону 1901 года. Официальный сайт укажите в админке — сейчас внешняя ссылка намеренно не задана.",
+          "Тексты и галерея редактируются в той же модели, что и карточка каталога.",
         ],
-        gallery: [g.flags("Русофония"), g.paris("Париж"), g.meet("Общение")],
-        externalUrl: "https://www.russophonie.org/",
+        gallery: [ph("urf-d1", "Фото 1"), ph("urf-d2", "Фото 2"), ph("urf-d3", "Фото 3")],
+        externalUrl: "https://fr.wikipedia.org/wiki/Union_des_russophones_de_France",
         videoEmbedUrl: null,
       },
     ],
