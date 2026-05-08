@@ -1,11 +1,14 @@
 import type { SiteContent } from "./types";
 
-const MEDIA_Q = "auto=format&fit=crop&w=2560&q=82";
+const BG_W = "2560";
 
-/** Демо-фон: деловые кадры (Unsplash); в админке — свой файл/URL */
-function lawBg(photoId: string, alt: string) {
+/**
+ * Фон страницы: стабильные URL Pexels (офис, договоры, суд, документы).
+ * Ранее часть ссылок Unsplash отдавала 404 — фон пропадал. В админке — свой файл/URL.
+ */
+function legalStock(photoId: number, alt: string) {
   return {
-    src: `https://images.unsplash.com/photo-${photoId}?${MEDIA_Q}`,
+    src: `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&w=${BG_W}`,
     alt,
     caption: null as string | null,
   };
@@ -27,7 +30,7 @@ export const defaultSiteContent: SiteContent = {
     "Видео для фона: MP4 (кодек H.264) или WebM (VP9); разрешение от 1920×1080 и выше; без аудиодорожки или с немым звуком; короткий зацикленный ролик (например 5–30 с); умеренный битрейт (ориентир 4–10 Мбит/с). " +
     "Поле «постер» — статичный кадр того же размера, что и фото, показывается до загрузки видео и на слабых устройствах.",
   home: {
-    pageBackground: lawBg("1589829545856-d10d557cf95f", "Судебный молоток и правосудие"),
+    pageBackground: legalStock(5669619, "Юридический кабинет, рабочий стол"),
     ...V,
     headlineMain: "Юридическая работа во Франции —",
     headlineAccent: "спокойно и по правилам",
@@ -47,7 +50,7 @@ export const defaultSiteContent: SiteContent = {
     ],
   },
   emigration: {
-    pageBackground: lawBg("1544717305-27837e40e38a", "Документы и путешествие"),
+    pageBackground: legalStock(6373310, "Документы и официальные бумаги"),
     ...V,
     pageTitle: "Эмиграция во Францию",
     lead: "Раздел для материалов о легализации и жизни во Франции — тексты и фон страницы из админки.",
@@ -57,28 +60,28 @@ export const defaultSiteContent: SiteContent = {
     ],
   },
   business: {
-    pageBackground: lawBg("1450101499163-c8848e66b161", "Рабочее место с документами"),
+    pageBackground: legalStock(3760067, "Подписание договора в офисе"),
     ...V,
     pageTitle: "Бизнес во Франции",
     lead: "Корпоративное и предпринимательское право — контент подключается из CMS.",
     paragraphs: ["Обзоры форм деятельности, налоги и ссылки на официальные источники."],
   },
   talentPassport: {
-    pageBackground: lawBg("1521737711867-e3b97375f902", "Деловая встреча в офисе"),
+    pageBackground: legalStock(4427616, "Деловой офис, рабочее место"),
     ...V,
     pageTitle: "Паспорт талант Франция",
     lead: "Программа Passeport Talent и смежные статусы.",
     paragraphs: ["Категории, контракт, доказательства квалификации, продления."],
   },
   laws: {
-    pageBackground: lawBg("1481627834876-bdc3a0f2959f", "Юридическая литература"),
+    pageBackground: legalStock(5439449, "Работа с договором и документами"),
     ...V,
     pageTitle: "Интересные ЗАКОНЫ Франции",
     lead: "Короткие заметки о нормах с отсылками к источникам.",
     paragraphs: ["Не заменяет индивидуальную консультацию."],
   },
   associations: {
-    pageBackground: lawBg("1507679799987-c83647557fc8", "Колонны здания суда"),
+    pageBackground: legalStock(7681090, "Фасад официального здания"),
     ...V,
     pageTitle: "Русскоговорящие ассоциации во Франции",
     lead:
@@ -190,7 +193,7 @@ export const defaultSiteContent: SiteContent = {
     details: [
       {
         slug: "afr",
-        pageBackground: lawBg("1523050854058-8df90110c9f1", "Образование и знания"),
+        pageBackground: legalStock(8190818, "Книги и учёба, образовательная среда"),
         ...V,
         title: "Association française des russisants (AFR)",
         lead: "Французская ассоциация преподавателей и любителей русского языка и культуры.",
@@ -204,7 +207,7 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         slug: "csorf",
-        pageBackground: lawBg("1529156069898-49953e39b3ac", "Совместная работа сообщества"),
+        pageBackground: legalStock(6149107, "Деловая встреча и координация"),
         ...V,
         title: "Координационный совет российских соотечественников во Франции",
         lead: "Площадка координации общественных организаций и новостей соотечественников.",
@@ -218,7 +221,7 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         slug: "aajfr",
-        pageBackground: lawBg("1589829545856-d10d557cf95f", "Правосудие и профессия юриста"),
+        pageBackground: legalStock(5669618, "Профессиональная юридическая среда"),
         ...V,
         title: "AAJFR — ассоциация франко-русских адвокатов и юристов",
         lead: "Профессиональное объединение юристов, работающих с франко-российским правом.",
@@ -232,7 +235,7 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         slug: "clcr",
-        pageBackground: lawBg("1503676260728-1c00da094a0b", "Учёба и книги"),
+        pageBackground: legalStock(7688497, "Учебные материалы и работа за столом"),
         ...V,
         title: "Центр русского языка и культуры (CLCR)",
         lead: "Образовательные и культурные программы для русскоязычной аудитории.",
@@ -246,7 +249,7 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         slug: "urf",
-        pageBackground: lawBg("1523246215270-6d3697223d39", "Деловое общение"),
+        pageBackground: legalStock(6149109, "Официальное деловое общение"),
         ...V,
         title: "Union des Russophones de France",
         lead: "Союз русофонов Франции — продвижение языка и интересов русскоязычных.",
