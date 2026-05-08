@@ -49,6 +49,13 @@ coverage/
 .vercel/
 .netlify/
 
-# Supabase local (if used later)
-.branches/
-.temp/
+# Supabase (CLI, локальная разработка — не коммитить)
+supabase/.branches/
+supabase/.temp/
+supabase/.env
+supabase/.env.*
+# Edge Functions: локальные секреты рядом с кодом
+supabase/functions/**/.env
+supabase/functions/**/.env.*
+# Иногда появляется у корня после CLI
+.supabase/
