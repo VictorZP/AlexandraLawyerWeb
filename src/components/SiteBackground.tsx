@@ -4,7 +4,7 @@ type Props = {
   posterUrl: string | null;
 };
 
-/** Полноэкранный фон за стеклянным интерфейсом: приоритет у видео, иначе фото */
+/** Полноэкранный фон за стеклянным интерфейсом: приоритет у видео, иначе фото (img + fetchPriority для ранней загрузки). */
 export function SiteBackground({ imageUrl, videoUrl, posterUrl }: Props) {
   const hasVideo = Boolean(videoUrl);
   const hasImage = Boolean(imageUrl);
@@ -21,10 +21,16 @@ export function SiteBackground({ imageUrl, videoUrl, posterUrl }: Props) {
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="auto"
           />
         ) : hasImage ? (
-          <div className="site-bg__image" style={{ backgroundImage: `url(${imageUrl})` }} />
+          <img
+            className="site-bg__image"
+            src={imageUrl!}
+            alt=""
+            decoding="async"
+            fetchPriority="high"
+          />
         ) : (
           <div className="site-bg__fallback" />
         )}

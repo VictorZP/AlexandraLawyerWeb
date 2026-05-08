@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import "../styles/admin.css";
 import { useCallback, useEffect, useState } from "react";
 import {
   clearAdminSession,

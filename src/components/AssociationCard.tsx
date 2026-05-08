@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import type { AssociationEntry } from "../content/types";
+import { useLocale } from "../i18n/LocaleProvider";
 
 type Props = {
   item: AssociationEntry;
 };
 
 export function AssociationCard({ item }: Props) {
+  const { t } = useLocale();
   const animRef = useRef<HTMLDivElement>(null);
   const articleRef = useRef<HTMLElement>(null);
   const [entered, setEntered] = useState(false);
@@ -111,14 +113,14 @@ export function AssociationCard({ item }: Props) {
             <p className="assoc-card__overlay-intro">{item.hoverIntro}</p>
             <div className="assoc-card__actions">
               <Link className="assoc-card__cta" to={`/associations/${item.slug}`}>
-                Подробнее
+                {t.assocMore}
               </Link>
               {item.externalUrl ? (
                 <a className="assoc-card__cta assoc-card__cta--external" href={item.externalUrl} target="_blank" rel="noreferrer">
-                  Сайт ассоциации
+                  {t.assocWebsite}
                 </a>
               ) : (
-                <span className="assoc-card__cta assoc-card__cta--disabled">Сайт — в админке</span>
+                <span className="assoc-card__cta assoc-card__cta--disabled">{t.assocWebsiteAdmin}</span>
               )}
             </div>
             <div className="assoc-card__specs">
@@ -138,12 +140,12 @@ export function AssociationCard({ item }: Props) {
             tabIndex={0}
             onKeyDown={onCarouselKeyDown}
             role="toolbar"
-            aria-label="Фотографии объединения"
+            aria-label={t.assocGalleryToolbar}
           >
-            <button type="button" className="assoc-card__carousel-btn" aria-label="Предыдущее фото" onClick={go(-1)}>
+            <button type="button" className="assoc-card__carousel-btn" aria-label={t.carouselPrev} onClick={go(-1)}>
               ‹
             </button>
-            <button type="button" className="assoc-card__carousel-btn" aria-label="Следующее фото" onClick={go(1)}>
+            <button type="button" className="assoc-card__carousel-btn" aria-label={t.carouselNext} onClick={go(1)}>
               ›
             </button>
             <div className="assoc-card__dots" aria-hidden>

@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { MediaSlot } from "../components/MediaSlot";
 import { useSiteContent } from "../content/useSiteContent";
+import { useLocale } from "../i18n/LocaleProvider";
 
 export function HomePage() {
+  const { t } = useLocale();
   const { home } = useSiteContent();
   const tiles = [...home.sectionTiles].sort((a, b) => a.sortOrder - b.sortOrder);
 
@@ -17,10 +19,10 @@ export function HomePage() {
           <p className="hero__text">{home.lead}</p>
           <div className="hero__actions">
             <Link className="btn btn--primary" to="/emigration">
-              Эмиграция
+              {t.homeHeroEmigration}
             </Link>
             <Link className="btn btn--ghost" to="/associations">
-              Ассоциации
+              {t.homeHeroAssociations}
             </Link>
           </div>
         </div>
@@ -34,7 +36,7 @@ export function HomePage() {
 
       <section className="home-sections" aria-labelledby="home-sections-title">
         <h2 id="home-sections-title" className="section-heading">
-          Разделы сайта
+          {t.homeSectionTitle}
         </h2>
         <ul className="section-grid">
           {tiles.map((t) => (
@@ -55,7 +57,7 @@ export function HomePage() {
           ) : null}
           <MediaSlot
             media={home.illustration}
-            emptyLabel="Изображение для главной — задаётся в админке (URL и подпись)."
+            emptyLabel={t.homeIllustrationEmpty}
             imgClassName=""
           />
         </div>

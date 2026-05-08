@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { AssociationCard } from "../components/AssociationCard";
 import { useSiteContent } from "../content/useSiteContent";
+import { useLocale } from "../i18n/LocaleProvider";
 
 export function AssociationsPage() {
+  const { t } = useLocale();
   const { associations } = useSiteContent();
   const [regionId, setRegionId] = useState("all");
   const [categoryId, setCategoryId] = useState("all");
@@ -49,7 +51,7 @@ export function AssociationsPage() {
       <div className="assoc-filters glass panel">
         <div className="assoc-filters__group">
           <span className="assoc-filters__label" id="assoc-sphere-label">
-            Сфера деятельности
+            {t.assocFilterSphere}
           </span>
           <div className="assoc-filters__tabs" role="group" aria-labelledby="assoc-sphere-label">
             {associations.categoryTabs.map((t) => (
@@ -67,7 +69,7 @@ export function AssociationsPage() {
         </div>
         <div className="assoc-filters__group">
           <span className="assoc-filters__label" id="assoc-region-label">
-            Регион
+            {t.assocFilterRegion}
           </span>
           <div className="assoc-filters__tabs" role="group" aria-labelledby="assoc-region-label">
             {associations.regionTabs.map((t) => (
@@ -85,8 +87,8 @@ export function AssociationsPage() {
         </div>
 
         {totalPages > 1 ? (
-          <nav className="assoc-pagination" aria-label="Страницы каталога">
-            <span className="assoc-pagination__label">Страница</span>
+          <nav className="assoc-pagination" aria-label={t.assocPaginationAria}>
+            <span className="assoc-pagination__label">{t.assocPaginationPage}</span>
             <div className="assoc-pagination__tabs">
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
                 <button
@@ -106,7 +108,7 @@ export function AssociationsPage() {
       </div>
 
       {filtered.length === 0 ? (
-        <p className="assoc-empty glass panel">По выбранным фильтрам пока ничего нет.</p>
+        <p className="assoc-empty glass panel">{t.assocEmpty}</p>
       ) : (
         <div className="assoc-grid">
           {pageItems.map((item) => (

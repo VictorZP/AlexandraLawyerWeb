@@ -1,7 +1,13 @@
 import { defaultSiteContent } from "./defaultSiteContent";
+import { siteContentFr } from "./defaultSiteContent.fr";
 import type { SiteContent } from "./types";
 import { isValidSiteContent } from "./validateSiteContent";
+import { getStoredLocale, subscribeLocale } from "../i18n/localeStorage";
 import { isAdminSiteBuild } from "../lib/siteMode";
+
+function baseContent(): SiteContent {
+  return getStoredLocale() === "fr" ? siteContentFr : defaultSiteContent;
+}
 
 const STORAGE_KEY = "legal-site-content-v1";
 
@@ -19,21 +25,28 @@ function readFromStorage(): unknown | null {
 }
 
 export function subscribeSiteContent(onStoreChange: () => void): () => void {
-  if (!isAdminSiteBuild()) return () => {};
+  const unsubLocale = subscribeLocale(onStoreChange);
+  if (!isAdminSiteBuild()) {
+    return unsubLocale;
+  }
   listeners.add(onStoreChange);
-  return () => listeners.delete(onStoreChange);
+  return () => {
+    unsubLocale();
+    listeners.delete(onStoreChange);
+  };
 }
 
 function notify(): void {
   listeners.forEach((fn) => fn());
 }
 
-/** Снимок контента для React (публичная сборка всегда из модуля). */
+/** Снимок контента для React (язык + при admin — правка из localStorage). */
 export function getSiteContentSnapshot(): SiteContent {
-  if (!isAdminSiteBuild()) return defaultSiteContent;
+  const base = baseContent();
+  if (!isAdminSiteBuild()) return base;
   const parsed = readFromStorage();
   if (parsed && isValidSiteContent(parsed)) return parsed;
-  return defaultSiteContent;
+  return base;
 }
 
 export function setSiteContentInBrowser(content: SiteContent): void {
