@@ -16,8 +16,16 @@ export type HomeSectionTile = {
   sortOrder: number;
 };
 
-export type HomeBlock = {
+/** Общие поля фона страницы: статичное фото и/или зацикленное видео без звука (приоритет у видео) */
+export type PageBackdropFields = {
   pageBackground: MediaRef | null;
+  /** Файл видео (URL после загрузки в админке); MP4/WebM, без звука, зацикливается */
+  pageBackgroundVideo: MediaRef | null;
+  /** Кадр до старта видео (рекомендуется при видео) */
+  pageBackgroundVideoPoster: MediaRef | null;
+};
+
+export type HomeBlock = PageBackdropFields & {
   headlineMain: string;
   headlineAccent: string | null;
   lead: string;
@@ -28,8 +36,7 @@ export type HomeBlock = {
   sectionTiles: HomeSectionTile[];
 };
 
-export type TopicPageBlock = {
-  pageBackground: MediaRef | null;
+export type TopicPageBlock = PageBackdropFields & {
   pageTitle: string;
   lead: string;
   paragraphs: string[];
@@ -64,9 +71,8 @@ export type AssociationEntry = {
 };
 
 /** Внутренняя страница «Подробнее» — тот же slug, что у карточки */
-export type AssociationDetailPageBlock = {
+export type AssociationDetailPageBlock = PageBackdropFields & {
   slug: string;
-  pageBackground: MediaRef | null;
   title: string;
   lead: string;
   paragraphs: string[];
@@ -76,8 +82,7 @@ export type AssociationDetailPageBlock = {
   videoEmbedUrl?: string | null;
 };
 
-export type AssociationsPageBlock = {
-  pageBackground: MediaRef | null;
+export type AssociationsPageBlock = PageBackdropFields & {
   pageTitle: string;
   lead: string;
   itemsPerPage: number;
@@ -88,6 +93,11 @@ export type AssociationsPageBlock = {
 };
 
 export type SiteContent = {
+  /**
+   * Текст подсказки для админки: форматы и разрешения фото/видео фона,
+   * чтобы изображение оставалось чётким (не растягивать маленькие файлы).
+   */
+  adminMediaGuidance: string;
   home: HomeBlock;
   emigration: TopicPageBlock;
   business: TopicPageBlock;

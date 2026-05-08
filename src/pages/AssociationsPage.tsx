@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { AssociationCard } from "../components/AssociationCard";
-import { getSiteContent } from "../content/defaultSiteContent";
+import { useSiteContent } from "../content/useSiteContent";
 
 export function AssociationsPage() {
-  const { associations } = getSiteContent();
+  const { associations } = useSiteContent();
   const [regionId, setRegionId] = useState("all");
   const [categoryId, setCategoryId] = useState("all");
   const [page, setPage] = useState(1);

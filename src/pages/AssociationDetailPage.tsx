@@ -1,10 +1,10 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import { MediaSlot } from "../components/MediaSlot";
-import { getSiteContent } from "../content/defaultSiteContent";
+import { useSiteContent } from "../content/useSiteContent";
 
 export function AssociationDetailPage() {
   const { slug } = useParams<{ slug: string }>();
-  const site = getSiteContent();
+  const site = useSiteContent();
   const detail = site.associations.details.find((d) => d.slug === slug);
 
   if (!slug || !detail) {

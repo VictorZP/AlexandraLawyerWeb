@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { MediaSlot } from "../components/MediaSlot";
-import { getSiteContent } from "../content/defaultSiteContent";
+import { useSiteContent } from "../content/useSiteContent";
 
 export function HomePage() {
-  const { home } = getSiteContent();
+  const { home } = useSiteContent();
   const tiles = [...home.sectionTiles].sort((a, b) => a.sortOrder - b.sortOrder);
 
   return (

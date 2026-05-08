@@ -1,0 +1,155 @@
+.admin-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.admin-shell__muted {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.admin-login {
+  width: 100%;
+  max-width: 420px;
+  padding: 1.75rem 1.5rem;
+  border-radius: var(--radius);
+}
+
+.admin-login__title {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+.admin-login__lead {
+  margin: 0 0 1.25rem;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.admin-login__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-page {
+  min-height: 100vh;
+  padding: 1.5rem 1.25rem 2.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.admin-page__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.admin-page__title {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.admin-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.admin-hint {
+  margin: 0 0 1rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: rgba(244, 240, 232, 0.92);
+  border: 1px solid var(--glass-border);
+  background: rgba(14, 10, 22, 0.5);
+}
+
+.admin-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.admin-input,
+.admin-textarea {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: rgba(10, 8, 16, 0.65);
+  color: var(--color-text);
+}
+
+.admin-textarea {
+  width: 100%;
+  min-height: 52vh;
+  resize: vertical;
+  line-height: 1.45;
+  font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, monospace;
+  font-size: 0.82rem;
+}
+
+.admin-btn {
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text);
+}
+
+.admin-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-btn--primary {
+  border-color: var(--color-border);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.admin-btn--danger {
+  border-color: rgba(220, 90, 90, 0.45);
+  color: #f0a8a8;
+}
+
+.admin-error {
+  margin: 0;
+  color: #f0a8a8;
+  font-size: 0.9rem;
+}
+
+.admin-status {
+  margin: 0 0 0.75rem;
+  font-size: 0.88rem;
+  color: var(--color-muted);
+}
+
+.admin-code {
+  font-size: 0.85em;
+  color: var(--color-accent);
+}

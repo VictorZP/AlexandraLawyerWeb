@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
 import { useMemo } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { getSiteContent } from "../content/defaultSiteContent";
+import { useSiteContent } from "../content/useSiteContent";
 import { useGlobalScrollParallax } from "../hooks/useGlobalScrollParallax";
-import { resolvePageBackground } from "../lib/resolvePageBackground";
+import { resolvePageBackdrop } from "../lib/resolvePageBackground";
 import { SiteBackground } from "./SiteBackground";
 
 const nav = [
@@ -18,11 +18,16 @@ const nav = [
 export function Layout({ children }: { children?: ReactNode }) {
   useGlobalScrollParallax();
   const { pathname } = useLocation();
-  const bg = useMemo(() => resolvePageBackground(pathname, getSiteContent()), [pathname]);
+  const site = useSiteContent();
+  const backdrop = useMemo(() => resolvePageBackdrop(pathname, site), [pathname, site]);
 
   return (
     <div className="site">
-      <SiteBackground imageUrl={bg?.src ?? null} />
+      <SiteBackground
+        imageUrl={backdrop.imageUrl}
+        videoUrl={backdrop.videoUrl}
+        posterUrl={backdrop.posterUrl}
+      />
       <a href="#main" className="skip-link">
         К основному содержанию
       </a>
@@ -53,7 +58,7 @@ export function Layout({ children }: { children?: ReactNode }) {
           </nav>
         </div>
       </header>
-      <main id="main" className="site-main">
+      <main id="main" key={pathname} className="site-main site-main--enter">
         {children}
       </main>
       <footer className="site-footer glass">
@@ -61,6 +66,12 @@ export function Layout({ children }: { children?: ReactNode }) {
           Информация на сайте не является публичной офертой. Договор оказания услуг
           заключается отдельно.
         </p>
+        {import.meta.env.DEV ? (
+          <details className="site-footer__admin-hint">
+            <summary>Требования к фото и видео фона (для админки)</summary>
+            <p className="site-footer__admin-hint-body">{site.adminMediaGuidance}</p>
+          </details>
+        ) : null}
         <p className="site-footer__note">© {new Date().getFullYear()}</p>
       </footer>
     </div>

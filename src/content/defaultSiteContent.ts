@@ -1,11 +1,17 @@
 import type { SiteContent } from "./types";
 
-/** Фон страницы: нейтральное демо-фото по seed (picsum); в админке — свой URL */
-const bg = (seed: string) => ({
-  src: `https://picsum.photos/seed/${seed}/2000/1200`,
-  alt: "",
-  caption: null as string | null,
-});
+const MEDIA_Q = "auto=format&fit=crop&w=2560&q=82";
+
+/** Демо-фон: деловые кадры (Unsplash); в админке — свой файл/URL */
+function lawBg(photoId: string, alt: string) {
+  return {
+    src: `https://images.unsplash.com/photo-${photoId}?${MEDIA_Q}`,
+    alt,
+    caption: null as string | null,
+  };
+}
+
+const V = { pageBackgroundVideo: null, pageBackgroundVideoPoster: null } as const;
 
 /** Галерея карточки: те же seed-и заменяются в админке на фото организации */
 const ph = (seed: string, alt: string) => ({
@@ -15,8 +21,14 @@ const ph = (seed: string, alt: string) => ({
 });
 
 export const defaultSiteContent: SiteContent = {
+  adminMediaGuidance:
+    "Фон страницы заполняется в админке: либо фото, либо видео (видео имеет приоритет; звук не воспроизводится). " +
+    "Чтобы картинка оставалась чёткой и не «мылилась», загружайте исходник достаточного размера: для полноэкранного cover ориентируйтесь на ширину не меньше 1920–2560 px, соотношение 16:9 или 3:2; форматы JPEG или WebP с качеством примерно 80–90%. " +
+    "Видео для фона: MP4 (кодек H.264) или WebM (VP9); разрешение от 1920×1080 и выше; без аудиодорожки или с немым звуком; короткий зацикленный ролик (например 5–30 с); умеренный битрейт (ориентир 4–10 Мбит/с). " +
+    "Поле «постер» — статичный кадр того же размера, что и фото, показывается до загрузки видео и на слабых устройствах.",
   home: {
-    pageBackground: bg("site-home"),
+    pageBackground: lawBg("1589829545856-d10d557cf95f", "Судебный молоток и правосудие"),
+    ...V,
     headlineMain: "Юридическая работа во Франции —",
     headlineAccent: "спокойно и по правилам",
     lead:
@@ -35,7 +47,8 @@ export const defaultSiteContent: SiteContent = {
     ],
   },
   emigration: {
-    pageBackground: bg("site-emigration"),
+    pageBackground: lawBg("1544717305-27837e40e38a", "Документы и путешествие"),
+    ...V,
     pageTitle: "Эмиграция во Францию",
     lead: "Раздел для материалов о легализации и жизни во Франции — тексты и фон страницы из админки.",
     paragraphs: [
@@ -44,28 +57,32 @@ export const defaultSiteContent: SiteContent = {
     ],
   },
   business: {
-    pageBackground: bg("site-business"),
+    pageBackground: lawBg("1450101499163-c8848e66b161", "Рабочее место с документами"),
+    ...V,
     pageTitle: "Бизнес во Франции",
     lead: "Корпоративное и предпринимательское право — контент подключается из CMS.",
     paragraphs: ["Обзоры форм деятельности, налоги и ссылки на официальные источники."],
   },
   talentPassport: {
-    pageBackground: bg("site-talent"),
+    pageBackground: lawBg("1521737711867-e3b97375f902", "Деловая встреча в офисе"),
+    ...V,
     pageTitle: "Паспорт талант Франция",
     lead: "Программа Passeport Talent и смежные статусы.",
     paragraphs: ["Категории, контракт, доказательства квалификации, продления."],
   },
   laws: {
-    pageBackground: bg("site-laws"),
+    pageBackground: lawBg("1481627834876-bdc3a0f2959f", "Юридическая литература"),
+    ...V,
     pageTitle: "Интересные ЗАКОНЫ Франции",
     lead: "Короткие заметки о нормах с отсылками к источникам.",
     paragraphs: ["Не заменяет индивидуальную консультацию."],
   },
   associations: {
-    pageBackground: bg("site-associations"),
+    pageBackground: lawBg("1507679799987-c83647557fc8", "Колонны здания суда"),
+    ...V,
     pageTitle: "Русскоговорящие ассоциации во Франции",
     lead:
-      "Организации с проверяемыми официальными сайтами (AFR, КСОРС, AAJFR, CLCR). Демо-фото — нейтральные заглушки picsum; ссылки и изображения заменяются в админке. На карточке: карусель, «Подробнее» — наша страница, «Сайт ассоциации» — внешняя ссылка (если задана).",
+      "Организации с проверяемыми официальными сайтами (AFR, КСОРС, AAJFR, CLCR). Фото карточек и фоны страниц задаются в админке. На карточке: карусель, «Подробнее» — наша страница, «Сайт ассоциации» — внешняя ссылка (если задана).",
     itemsPerPage: 6,
     regionTabs: [
       { id: "all", label: "Все регионы" },
@@ -173,7 +190,8 @@ export const defaultSiteContent: SiteContent = {
     details: [
       {
         slug: "afr",
-        pageBackground: bg("detail-afr"),
+        pageBackground: lawBg("1523050854058-8df90110c9f1", "Образование и знания"),
+        ...V,
         title: "Association française des russisants (AFR)",
         lead: "Французская ассоциация преподавателей и любителей русского языка и культуры.",
         paragraphs: [
@@ -186,7 +204,8 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         slug: "csorf",
-        pageBackground: bg("detail-csorf"),
+        pageBackground: lawBg("1529156069898-49953e39b3ac", "Совместная работа сообщества"),
+        ...V,
         title: "Координационный совет российских соотечественников во Франции",
         lead: "Площадка координации общественных организаций и новостей соотечественников.",
         paragraphs: [
@@ -199,7 +218,8 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         slug: "aajfr",
-        pageBackground: bg("detail-aajfr"),
+        pageBackground: lawBg("1589829545856-d10d557cf95f", "Правосудие и профессия юриста"),
+        ...V,
         title: "AAJFR — ассоциация франко-русских адвокатов и юристов",
         lead: "Профессиональное объединение юристов, работающих с франко-российским правом.",
         paragraphs: [
@@ -212,7 +232,8 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         slug: "clcr",
-        pageBackground: bg("detail-clcr"),
+        pageBackground: lawBg("1503676260728-1c00da094a0b", "Учёба и книги"),
+        ...V,
         title: "Центр русского языка и культуры (CLCR)",
         lead: "Образовательные и культурные программы для русскоязычной аудитории.",
         paragraphs: [
@@ -225,7 +246,8 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         slug: "urf",
-        pageBackground: bg("detail-urf"),
+        pageBackground: lawBg("1523246215270-6d3697223d39", "Деловое общение"),
+        ...V,
         title: "Union des Russophones de France",
         lead: "Союз русофонов Франции — продвижение языка и интересов русскоязычных.",
         paragraphs: [
@@ -239,7 +261,3 @@ export const defaultSiteContent: SiteContent = {
     ],
   },
 };
-
-export function getSiteContent(): SiteContent {
-  return defaultSiteContent;
-}
